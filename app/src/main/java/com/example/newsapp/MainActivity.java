@@ -22,6 +22,8 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     private static final String REQUEST_URL = "http://content.guardianapis.com/search";
     private static final int NEWS_LOADER_ID = 1;
     private NewsAdapter mAdapter;
+    private TextView mEmptyStateTextView;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,7 +32,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
         ListView newsListView = (ListView) findViewById(R.id.list);
 
-        TextView mEmptyStateTextView = (TextView) findViewById(R.id.empty_view);
+        mEmptyStateTextView = (TextView) findViewById(R.id.empty_view);
         newsListView.setEmptyView(mEmptyStateTextView);
 
         mAdapter = new NewsAdapter(this, new ArrayList<>());
@@ -78,6 +80,8 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         mAdapter.clear();
         View loadingIndicator = findViewById(R.id.loading_indicator);
         loadingIndicator.setVisibility(View.GONE);
+        mEmptyStateTextView.setText(getString(R.string.no_news));
+
         if (newsList != null && !newsList.isEmpty()) {
             mAdapter.addAll(newsList);
         }
